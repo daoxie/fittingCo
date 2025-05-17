@@ -1,73 +1,79 @@
+<!-- src/App.vue -->
 <template>
-  <div> <!-- Root element untuk App.vue -->
-    <Preloader v-if="showPreloader" /> 
-    <AppHeader />
-
-    <main>
-      <router-view v-slot="{ Component }">
-        <transition name="fade" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
-    </main>
-
-    <AppFooter />
-    <SearchModal />
-  </div>
+  <component :is="layoutComponent" />
+  
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'; // onMounted jika perlu
-import { RouterView } from 'vue-router';
-import AppHeader from './components/AppHeader.vue';
-import AppFooter from './components/AppFooter.vue';
+import { computed, onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { useAuth } from './composables/useAuth';
 
-const showPreloader = ref(true); // Contoh state untuk preloader
+import MainLayout from './layouts/MainLayout.vue';
+
+
+const route = useRoute();
+const { checkAuthStatus } = useAuth();
+const showGlobalPreloader = ref(true);
 
 onMounted(() => {
-  
-  const preloaderElement = document.getElementById('preloder');
-  if (preloaderElement) {
-      // Sembunyikan setelah beberapa saat atau setelah window.load
-      // main.js template mungkin sudah melakukan ini.
-      window.addEventListener('load', () => { // Atau event lain dari main.js template
-        if (preloaderElement) preloaderElement.style.display = 'none';
-        showPreloader.value = false;
-      });
-      // Fallback
-      setTimeout(() => {
-        if (preloaderElement && preloaderElement.style.display !== 'none') {
-            preloaderElement.style.display = 'none';
-        }
-        showPreloader.value = false;
-      }, 2500); // Sesuaikan durasi
-  } else {
-    showPreloader.value = false; // Jika tidak ada elemen preloader HTML
-  }
+  checkAuthStatus();
 
-  // Penting: Script main.js dari template (yang ada di public/js/main.js)
-  // akan dieksekusi secara global karena sudah di-link di public/index.html.
-  // Script tersebut akan mencari selector CSS (misal, .owl-carousel, .nice-select)
-  // dan menginisialisasi plugin jQuery.
-  // Pastikan selector-selector tersebut ADA di dalam komponen Vue Anda
-  // (AppHeader.vue, AppFooter.vue, OffcanvasMenu.vue, dll.)
+  const preloaderHtmlElement = document.getElementById('preloder');
+  if (preloaderHtmlElement) {
+    window.addEventListener('load', () => {
+      if (preloaderHtmlElement) {
+        preloaderHtmlElement.style.display = 'none';
+      }
+      showGlobalPreloader.value = false;
+    });
+    setTimeout(() => {
+      if (preloaderHtmlElement && preloaderHtmlElement.style.display !== 'none') {
+        preloaderHtmlElement.style.display = 'none';
+      }
+      showGlobalPreloader.value = false;
+    }, 3000);
+  } else {
+    setTimeout(() => {
+        showGlobalPreloader.value = false;
+    }, 1000);
+  }
 });
 
+const layoutComponent = computed(() => {
+  if (route.meta.layout) {
+    return route.meta.layout;
+  }
+  return MainLayout;
+});
 </script>
 
 <style>
-/* Style untuk transisi halaman (opsional) */
+/* Global Styles */
+/* Misalnya:
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Nunito Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #111111;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+*/
+
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease-out;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
-
-/* CSS global dari template sudah di-link di public/index.html, jadi tidak perlu impor di sini */
-/* Hapus atau komentari CSS default Vite jika tidak digunakan */
-/* @import './assets/base.css'; */
 </style>

@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-// Logika footer jika ada
+
 </script>
 
 <style scoped>
