@@ -12,16 +12,16 @@
           <div class="col-lg-6 col-md-5">
             <div class="header__top__right">
               <div class="header__top__links">
-                <!-- MODIFIKASI DI SINI: Tampilkan link berdasarkan status login -->
+                
                 <template v-if="!isAuthenticated">
                   <router-link to="/login">Sign in</router-link> <!-- Mengarah ke halaman LoginView -->
                   <router-link to="/register">Register</router-link>
                 </template>
                 <template v-else>
-                  <router-link to="/profile" class="welcome-user">Welcome, {{ user?.name }}!</router-link> <!-- Link ke profil -->
-                  <a href="#" @click.prevent="handleLogout" class="logout-link">Logout</a>
+                  <router-link to="/profile" class="welcome-user">Welcome, {{ user?.name }}!</router-link> 
+                  <a href="#" @click.prevent="handleLogout" class="logout-link">Logout     </a>
                 </template>
-                <router-link to="/faq">FAQs</router-link> <!-- Tetap ada -->
+                <router-link to="/faq"> FAQs</router-link> 
               </div>
               <div class="header__top__hover">
                 <span>Usd <i class="arrow_carrot-down"></i></span>

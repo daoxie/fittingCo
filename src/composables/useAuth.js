@@ -9,7 +9,7 @@ const user = ref(null);
 const mockUsers = [
     { id: 1, name: 'Test User', email: 'test@example.com', password: 'password123' },
     { id: 2, name:'Bimo', email:"bimo@ks.com", password: 'test1980'},
-    { id: 3, name:'Naufal', email:"naufal@ex.com", password: 'test1234'},
+    { id: 3, name:'Naufal', email:"naufal@pn.com", password: 'test1986'},
     { id: 4, name:'Abi', email:"abi@ex.com", password: 'test1235'}
 ];
 

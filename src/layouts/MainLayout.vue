@@ -4,7 +4,7 @@
     <OffcanvasMenu />
     <AppHeader />
     <main>
-      <router-view v-slot="{ Component }"> <!-- Router view untuk konten halaman -->
+      <router-view v-slot="{ Component }"> 
         <transition name="fade" mode="out-in">
           <component :is="Component" />
         </transition>
