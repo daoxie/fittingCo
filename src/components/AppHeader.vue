@@ -12,16 +12,15 @@
           <div class="col-lg-6 col-md-5">
             <div class="header__top__right">
               <div class="header__top__links">
-                
                 <template v-if="!isAuthenticated">
-                  <router-link to="/login">Sign in</router-link> <!-- Mengarah ke halaman LoginView -->
+                  <router-link to="/login">Sign in</router-link>
                   <router-link to="/register">Register</router-link>
                 </template>
                 <template v-else>
-                  <router-link to="/profile" class="welcome-user">Welcome, {{ user?.name }}!</router-link> 
-                  <a href="#" @click.prevent="handleLogout" class="logout-link">Logout     </a>
+                  <router-link to="/profile" class="welcome-user">Welcome, {{ user?.name }}!</router-link>
+                  <a href="#" @click.prevent="handleLogout" class="logout-link">Logout</a>
                 </template>
-                <router-link to="/faq"> FAQs</router-link> 
+                <router-link to="/faq">FAQs</router-link>
               </div>
               <div class="header__top__hover">
                 <span>Usd <i class="arrow_carrot-down"></i></span>
@@ -80,47 +79,46 @@
 <script setup>
 import { RouterLink, useRoute } from 'vue-router';
 import { onMounted } from 'vue';
-import { useAuth } from '../composables/useAuth'; // 1. Impor useAuth
+import { useAuth } from '../composables/useAuth';
 
 const route = useRoute();
-const { user, isAuthenticated, logout } = useAuth(); // 2. Ambil state dan fungsi dari useAuth
+const { user, isAuthenticated, logout } = useAuth();
 
-function handleLogout() { // 3. Buat fungsi untuk menangani logout
+function handleLogout() {
   logout();
 }
 
 onMounted(() => {
-  // Logika onMounted Anda yang sudah ada
+  // Logika untuk inisialisasi plugin jQuery bisa ditambahkan di sini jika
+  // main.js template tidak menghandlenya dengan baik dalam konteks Vue.
 });
 </script>
 
 <style scoped>
-/* Styling untuk link aktif */
 .header__menu ul li a.router-link-active,
 .header__menu ul li.active > a,
 .header__menu ul li.active > router-link {
   color: #111111 !important;
 }
 
-/* Styling tambahan untuk link di header top */
 .header__top__links a,
-.header__top__links .welcome-user { /* Targetkan juga class welcome-user jika itu router-link */
+.header__top__links .welcome-user {
     font-size: 13px;
-    color: #ffffff; /* Warna default link di header top */
+    color: #ffffff;
     display: inline-block;
-    margin-right: 15px; /* Jarak antar link */
+    margin-right: 15px;
     text-decoration: none;
-    cursor: pointer; /* Untuk logout link */
+    cursor: pointer;
 }
 
 .header__top__links a:last-child,
-.header__top__links .welcome-user + a { /* Hapus margin kanan pada item terakhir */
+.header__top__links .welcome-user + a.logout-link { /* Lebih spesifik untuk logout link */
     margin-right: 0;
 }
 
 .header__top__links .logout-link:hover,
 .header__top__links .welcome-user:hover,
-.header__top__links > router-link:hover { /* Style hover jika perlu */
-    color: #e53637; /* Warna hover, sesuaikan */
+.header__top__links > router-link:hover {
+    color: #e53637;
 }
 </style>

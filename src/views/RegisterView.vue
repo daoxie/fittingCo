@@ -1,21 +1,10 @@
 <!-- src/views/RegisterView.vue -->
 <template>
-  <div>
-    <!-- Breadcrumb (opsional, sesuaikan) -->
-    <section class="breadcrumb-blog set-bg" data-setbg="/img/breadcrumb-bg.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2>Register</h2>
-                </div>
-            </div>
-        </div>
-    </section>
-
+  <div class="register-view-wrapper">
     <section class="register spad">
       <div class="container">
-        <div class="row">
-          <div class="col-lg-6 offset-lg-3">
+        <div class="row justify-content-center">
+          <div class="col-lg-7 col-md-9 col-sm-11 col-12">
             <div class="register__form">
               <h3>Create an Account</h3>
               <form @submit.prevent="handleRegister">
@@ -31,7 +20,7 @@
                   <input type="password" v-model="password" placeholder="Password" required />
                   <span class="icon_lock"></span>
                 </div>
-                 <div class="input__item">
+                <div class="input__item">
                   <input type="password" v-model="confirmPassword" placeholder="Confirm Password" required />
                   <span class="icon_lock"></span>
                 </div>
@@ -40,7 +29,7 @@
               <div class="register__login">
                 <p>Already have an account? <router-link to="/login">Login</router-link></p>
               </div>
-               <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+              <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
             </div>
           </div>
         </div>
@@ -52,7 +41,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuth } from '../composables/useAuth'; // Kita akan buat ini
+import { useAuth } from '../composables/useAuth';
 
 const name = ref('');
 const email = ref('');
@@ -62,19 +51,15 @@ const errorMessage = ref('');
 const router = useRouter();
 const { register } = useAuth();
 
-
 async function handleRegister() {
   errorMessage.value = '';
   if (password.value !== confirmPassword.value) {
     errorMessage.value = 'Passwords do not match.';
     return;
   }
-
-  // SIMULASI REGISTER DENGAN BACKEND
   const success = await register(name.value, email.value, password.value);
 
   if (success) {
-    // Redirect ke halaman login atau langsung login dan redirect ke home
     alert('Registration successful! Please login.');
     router.push('/login');
   } else {
@@ -84,15 +69,19 @@ async function handleRegister() {
 </script>
 
 <style scoped>
-/* Gunakan style yang mirip dengan LoginView, sesuaikan jika perlu */
+.register-view-wrapper {
+  width: 100%;
+}
 .register.spad {
-  padding-top: 100px;
+  padding-top: 0;
   padding-bottom: 100px;
 }
 .register__form {
   background: #f3f2ee;
   padding: 40px;
   border-radius: 5px;
+  width: 100%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 .register__form h3 {
   color: #111111;
@@ -100,7 +89,7 @@ async function handleRegister() {
   text-align: center;
   margin-bottom: 30px;
 }
-.input__item { /* Style sudah ada di LoginView, pastikan konsisten */
+.input__item {
   position: relative;
   margin-bottom: 20px;
 }
@@ -114,8 +103,12 @@ async function handleRegister() {
   padding-left: 20px;
   padding-right: 50px;
 }
+.input__item input::placeholder {
+    color: #b2b2b2;
+}
 .input__item input:focus {
     border-color: #111111;
+    color: #111111;
 }
 .input__item .icon_mail,
 .input__item .icon_lock,
@@ -127,6 +120,11 @@ async function handleRegister() {
   top: 50%;
   transform: translateY(-50%);
 }
+.input__item input:focus + .icon_mail,
+.input__item input:focus + .icon_lock,
+.input__item input:focus + .icon_profile {
+    color: #111111;
+}
 .site-btn {
   width: 100%;
   margin-top: 10px;
@@ -137,28 +135,16 @@ async function handleRegister() {
 }
 .register__login p {
     color: #111111;
+    font-size: 15px;
 }
 .register__login p a {
-    color: #e53637; /* Sesuaikan dengan warna primary template Anda */
+    color: #e53637;
     font-weight: 700;
 }
 .error-message {
     color: red;
     text-align: center;
     margin-top: 15px;
-}
-/* Styling breadcrumb (jika menggunakan class yang sama) */
-.breadcrumb-blog {
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-size: cover; /* Tambahkan jika belum ada global */
-    background-position: center; /* Tambahkan jika belum ada global */
-}
-.breadcrumb-blog h2 {
-    color: #ffffff;
-    font-size: 40px;
-    font-weight: 700;
+    font-size: 14px;
 }
 </style>

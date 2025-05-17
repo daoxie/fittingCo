@@ -177,9 +177,7 @@ onMounted(() => {
         }
     });
 
-    // Counter Up Initialization (jika menggunakan plugin jquery.counterup.min.js)
-    // Pastikan plugin ini dimuat di public/index.html dan .cn_num ada di template.
-    if (window.$.fn.counterUp) { // Ganti .fn.counterUp dengan fungsi sebenarnya dari plugin jika berbeda
+    if (window.$.fn.counterUp) { 
         window.$('.cn_num').counterUp({
             delay: 10,
             time: 1200

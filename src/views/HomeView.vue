@@ -1,7 +1,6 @@
 <!-- src/views/HomeView.vue -->
 <template>
   <div>
-    <!-- Hero Section Begin -->
     <section class="hero">
       <div class="hero__slider owl-carousel">
         <div class="hero__items set-bg" data-setbg="/img/hero/hero-1.jpg">
@@ -48,9 +47,7 @@
         </div>
       </div>
     </section>
-    <!-- Hero Section End -->
 
-    <!-- Banner Section Begin -->
     <section class="banner spad">
       <div class="container">
         <div class="row">
@@ -90,9 +87,7 @@
         </div>
       </div>
     </section>
-    <!-- Banner Section End -->
 
-    <!-- Product Section Begin -->
     <section class="product spad">
       <div class="container">
         <div class="row">
@@ -134,9 +129,7 @@
         </div>
       </div>
     </section>
-    <!-- Product Section End -->
 
-    <!-- Categories Section Begin -->
     <section class="categories spad">
       <div class="container">
         <div class="row">
@@ -170,9 +163,7 @@
         </div>
       </div>
     </section>
-    <!-- Categories Section End -->
 
-    <!-- Instagram Section Begin -->
     <section class="instagram spad">
       <div class="container">
         <div class="row">
@@ -197,9 +188,7 @@
         </div>
       </div>
     </section>
-    <!-- Instagram Section End -->
 
-    <!-- Latest Blog Section Begin -->
     <section class="latest spad">
       <div class="container">
         <div class="row">
@@ -224,14 +213,12 @@
         </div>
       </div>
     </section>
-    <!-- Latest Blog Section End -->
-
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { RouterLink } from 'vue-router'; // RouterLink diimpor tapi tidak digunakan secara eksplisit di <script setup> jika semua link ada di template
+import { RouterLink } from 'vue-router';
 
 const products = ref([
   { id: 1, name: 'Piqué Biker Jacket', image: '/img/product/product-1.jpg', label: 'New', rating: 4, price: 67.24, colors: [{name: 'black', hex: '#000000'}, {name: 'blue', hex: '#0000FF'}] },
@@ -246,26 +233,20 @@ const latestBlogs = ref([
     { id: 3, title: "The Health Benefits Of Sunglasses", date: "28 February 2020", image: "/img/blog/blog-3.jpg" },
 ]);
 
-// Placeholder functions untuk aksi produk
 function addToCart(product) {
   console.log('Adding to cart:', product.name);
-  // Implementasikan logika add to cart Anda di sini (misalnya, panggil state management)
 }
 function handleWishlist(product) {
   console.log('Handling wishlist for:', product.name);
-  // Implementasikan logika wishlist Anda
 }
 function handleCompare(product) {
   console.log('Handling compare for:', product.name);
-  // Implementasikan logika compare Anda
 }
-
 
 let mixitupInstance = null;
 
 onMounted(() => {
-  if (window.$) { // Pastikan jQuery sudah dimuat
-    // Hero Slider (Owl Carousel)
+  if (window.$) {
     if (window.$.fn.owlCarousel && window.$('.hero__slider').length) {
       window.$('.hero__slider').owlCarousel({
         loop: true,
@@ -282,22 +263,10 @@ onMounted(() => {
       });
     }
 
-    // Product Filter (MixItUp)
     if (window.mixitup && document.querySelector('.product__filter')) {
-        mixitupInstance = window.mixitup(document.querySelector('.product__filter')
-        // Anda bisa menambahkan opsi MixItUp di sini jika diperlukan
-        // {
-        //     selectors: {
-        //         target: '.mix' // Pastikan class item produk adalah 'mix'
-        //     },
-        //     animation: {
-        //         duration: 300
-        //     }
-        // }
-        );
+        mixitupInstance = window.mixitup(document.querySelector('.product__filter'));
     }
 
-    // Set Background Images
     window.$('.set-bg').each(function () {
       var bg = window.$(this).data('setbg');
       if (bg) {
@@ -305,10 +274,9 @@ onMounted(() => {
       }
     });
 
-    // Countdown Timer Initialization
     if (window.$.fn.countdown && window.$("#countdown").length) {
         var countDownDate = new Date();
-        countDownDate.setDate(countDownDate.getDate() + 30); // Contoh: 30 hari dari sekarang
+        countDownDate.setDate(countDownDate.getDate() + 30);
         window.$("#countdown").countdown(countDownDate, function(event) {
             window.$(this).html(event.strftime("<div class='cd-item'><span>%D</span> <p>Days</p></div>" + "<div class='cd-item'><span>%H</span> <p>Hours</p></div>" + "<div class='cd-item'><span>%M</span> <p>Minutes</p></div>" + "<div class='cd-item'><span>%S</span> <p>Seconds</p></div>"));
         });
@@ -317,18 +285,12 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-    // Hancurkan instance MixItUp
     if (mixitupInstance) {
         mixitupInstance.destroy();
     }
-    // Hancurkan instance Owl Carousel
     if (window.$ && window.$.fn.owlCarousel && window.$('.hero__slider').data('owl.carousel')) {
         window.$('.hero__slider').data('owl.carousel').destroy();
     }
-    // Hancurkan instance countdown jika ada metode destroy
-    // if (window.$ && window.$.fn.countdown && window.$("#countdown").data('countdown.instance')) {
-    //     window.$("#countdown").countdown('destroy'); // Tergantung implementasi plugin countdown
-    // }
 });
 </script>
 
@@ -337,5 +299,4 @@ onBeforeUnmount(() => {
   padding-top: 100px;
   padding-bottom: 100px;
 }
-/* Pastikan <br /> dirender dengan benar. Jika tidak, Anda mungkin perlu style global atau non-scoped */
 </style>

@@ -4,7 +4,7 @@
     <div class="welcome-message">
       <h1>Selamat Datang di FittingCo</h1>
     </div>
-    <router-view /> 
+    <router-view />
   </div>
 </template>
 
@@ -16,12 +16,11 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;  
+  align-items: center;
   min-height: 100vh;
   width: 100%;
-  padding: 20px;       
+  padding: 20px;
   box-sizing: border-box;
-  /* background-color: #f9f9f9; */
 }
 
 .welcome-message {
